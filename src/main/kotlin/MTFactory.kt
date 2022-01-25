@@ -1,3 +1,8 @@
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
+import kotlin.collections.ArrayList
+
 /**
  * Formato arquivo
  * , (splitter)
@@ -14,6 +19,35 @@
 class MTFactory {
 
     private var splitter = ""
+    lateinit var mt: MaquinaTuring
+
+    constructor(fileName: String) {
+        val file = File(fileName)
+        try {
+            Scanner(file).use { scanner ->
+                splitter = scanner.next()
+                val states = generateStates(scanner.next())
+                val alphabet = generateAlphabet(scanner.next())
+                val tapeAlphabet = generateAlphabet(scanner.next())
+                val q0 = scanner.next()
+                val qAccepted = scanner.next()
+                val qRejected = scanner.next()
+                val transition = generateTransition(scanner.next())
+                mt = MaquinaTuring(
+                    states,
+                    alphabet,
+                    tapeAlphabet,
+                    q0,
+                    qAccepted,
+                    qRejected,
+                    transition
+                )
+            }
+        } catch (e: FileNotFoundException) {
+            println("Falha ao ler o arquivo")
+            e.printStackTrace()
+        }
+    }
 
     private fun generateStates(states: String) = states.split(splitter)
 
@@ -26,7 +60,7 @@ class MTFactory {
         return alphabetSymbols
     }
 
-    private fun generateTransition(transition : String) : Transitions{
+    private fun generateTransition(transition: String): Transitions {
         val aux = transition.split(splitter)
         val transitions = Transitions()
         aux.forEach {
@@ -36,14 +70,14 @@ class MTFactory {
         return transitions
     }
 
-    private fun getEntry(entry : String) : TransitionInput{
+    private fun getEntry(entry: String): TransitionInput {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
         var inputValues = input.split(splitter)
         return TransitionInput(inputValues[0], inputValues[1][0])
     }
 
-    private fun getOutput(entry : String) : TransitionOutput{
+    private fun getOutput(entry: String): TransitionOutput {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
         var inputValues = input.split(splitter)

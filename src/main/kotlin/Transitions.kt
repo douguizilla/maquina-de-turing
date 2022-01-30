@@ -1,26 +1,18 @@
 class Transitions {
-   val rule: HashMap<TransitionInput, TransitionOutput> = hashMapOf()
-}
+   val rule: HashMap<String, TransitionOutput> = hashMapOf()
 
-class TransitionInput {
-
-    val state: String
-    val symbol: Char
-
-    constructor(state: String, symbol: Char) {
-        this.state = state
-        this.symbol = symbol
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return if (other as? TransitionInput != null) {
-            other.state == this.state && other.symbol == this.symbol
-        } else {
-            false
+    fun show(){
+        val keys = rule.keys
+        for(key in keys){
+            val value = rule[key]
+            value?.let {
+                print("($key)->")
+                value.show()
+            }
         }
     }
-
 }
+
 
 class TransitionOutput {
 
@@ -34,12 +26,7 @@ class TransitionOutput {
         this.direction = direction
     }
 
-    override fun equals(other: Any?): Boolean {
-        return if (other as? TransitionInput != null) {
-            other.state == this.state && other.symbol == this.symbol
-        } else {
-            false
-        }
+    fun show(){
+        println("(${this.state},${this.symbol},${this.direction})")
     }
-
 }

@@ -1,12 +1,15 @@
 class MaquinaTuring(
-    private val states: List<String>,
-    private val alphabet: List<Char>,
-    private val tapeAlphabet: List<Char>,
-    private val initialState: String,
-    private val acceptedState: List<String>,
-    private val whiteSymbol: String,
-    private val transitions: Transitions,
-    ) {
+    val states: List<String>,
+    val alphabet: List<Char>,
+    val tapeAlphabet: List<Char>,
+    val initialState: String,
+    val acceptedState: List<String>,
+    val whiteSymbol: Char,
+    val transitions: Transitions,
+){
+    fun getTransition(state: String, symbol: Char): TransitionOutput? {
+        return transitions.rule["$state,$symbol"]
+    }
 
-
+    fun isAcceptable(state: String) = acceptedState.contains(state)
 }

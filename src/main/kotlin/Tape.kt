@@ -29,7 +29,7 @@ class Tape(
         return aux
     }
 
-    fun wakeOnTape(direction: Char, symbolToWrite: Char) {
+    fun walkOnTape(direction: Char, symbolToWrite: Char) {
         if (direction == 'R' || direction == 'r' || direction == 'D' || direction == 'd') {
             walkToRight(symbolToWrite)
         }

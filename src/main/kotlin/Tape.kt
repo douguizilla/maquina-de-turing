@@ -30,10 +30,10 @@ class Tape(
     }
 
     fun wakeOnTape(direction: Char, symbolToWrite: Char) {
-        if (direction == 'd') {
+        if (direction == 'R' || direction == 'r' || direction == 'D' || direction == 'd') {
             walkToRight(symbolToWrite)
         }
-        if (direction == 'e') {
+        if (direction == 'L' || direction == 'l' || direction == 'E' || direction == 'e') {
             walkToLeft(symbolToWrite)
         }
     }
@@ -41,7 +41,7 @@ class Tape(
     private fun walkToRight(symbolToWrite: Char) {
         if (symbolIsValid(symbolToWrite)) {
             tape[actualPosition] = symbolToWrite
-            if (canWalkToLeft()) {
+            if(canWalkToRight()) {
                 actualPosition++
             }
         }
@@ -57,6 +57,7 @@ class Tape(
     }
 
     private fun canWalkToLeft() = actualPosition != 0
+    private fun canWalkToRight() = actualPosition < size
 
     private fun symbolIsValid(symbolToWrite: Char) = acceptedSymbols.contains(symbolToWrite)
 }

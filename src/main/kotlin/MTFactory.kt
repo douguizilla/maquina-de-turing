@@ -11,9 +11,9 @@ import kotlin.collections.ArrayList
  * a;b;c;d;e;f;g (alfabeto)
  * a;b;c;d;e;f;g;X;Y;Y (alfabeto fita)
  * q0 (estado inicial)
- * q2;q3 (estados aceita)
+ * q2;q3 (estados de aceitação)
  * $ (simbolo branco)
- * (q0,a)->(q1,a,d),(q0,a)->(q1,a,d),(q0,a)->(q1,a,d) (função transição)
+ * (q0,a)->(q1,a,d);(q0,a)->(q1,a,d);(q0,a)->(q1,a,d) (função transição)
  */
 
 //Para o alfabeto aceitar
@@ -21,7 +21,7 @@ class MTFactory {
 
     private var externalSplitter = ""
     private var innerSplitter = ""
-    lateinit var mt: MaquinaTuring
+    private lateinit var mt: MaquinaTuring
 
     constructor(fileName: String) {
         val file = File(fileName)
@@ -88,5 +88,7 @@ class MTFactory {
         var inputValues = input.split(innerSplitter)
         return TransitionOutput(inputValues[0], inputValues[1][0], inputValues[2][0])
     }
+
+    fun getMT() = this.mt
 
 }

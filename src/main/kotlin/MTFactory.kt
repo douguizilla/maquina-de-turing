@@ -5,33 +5,36 @@ import kotlin.collections.ArrayList
 
 /**
  * Formato arquivo
- * , (splitter)
- * q0,q1,q2,q3 (conjunto de estados)
- * a,b,c,d,e,f,g (alfabeto)
- * a,b,c,d,e,f,g,x,y,z (alfabeto fita)
+ * , (innerSplitter)
+ * ; (externalSplitter)
+ * q0;q1;q2;q3 (conjunto de estados)
+ * a;b;c;d;e;f;g (alfabeto)
+ * a;b;c;d;e;f;g;X;Y;Y (alfabeto fita)
  * q0 (estado inicial)
- * qAceita (estado aceita)
- * qRejeita (estado rejeita)
+ * q2;q3 (estados aceita)
+ * $ (simbolo branco)
  * (q0,a)->(q1,a,d),(q0,a)->(q1,a,d),(q0,a)->(q1,a,d) (função transição)
  */
 
 //Para o alfabeto aceitar
 class MTFactory {
 
-    private var splitter = ""
+    private var externalSplitter = ""
+    private var innerSplitter = ""
     lateinit var mt: MaquinaTuring
 
     constructor(fileName: String) {
         val file = File(fileName)
         try {
             Scanner(file).use { scanner ->
-                splitter = scanner.next()
+                innerSplitter = scanner.next()
+                externalSplitter = scanner.next()
                 val states = generateStates(scanner.next())
                 val alphabet = generateAlphabet(scanner.next())
                 val tapeAlphabet = generateAlphabet(scanner.next())
                 val q0 = scanner.next()
-                val qAccepted = scanner.next()
-                val qRejected = scanner.next()
+                val qAccepted = generateAcceptanceStates(scanner.next())
+                val whiteSymbol = scanner.next()
                 val transition = generateTransition(scanner.next())
                 mt = MaquinaTuring(
                     states,
@@ -39,7 +42,7 @@ class MTFactory {
                     tapeAlphabet,
                     q0,
                     qAccepted,
-                    qRejected,
+                    whiteSymbol,
                     transition
                 )
             }
@@ -49,10 +52,10 @@ class MTFactory {
         }
     }
 
-    private fun generateStates(states: String) = states.split(splitter)
+    private fun generateStates(states: String) = states.split(externalSplitter)
 
     private fun generateAlphabet(alphabet: String): ArrayList<Char> {
-        val aux = alphabet.split(splitter)
+        val aux = alphabet.split(externalSplitter)
         val alphabetSymbols = arrayListOf<Char>()
         aux.forEach {
             alphabetSymbols.add(it[0])
@@ -60,8 +63,10 @@ class MTFactory {
         return alphabetSymbols
     }
 
+    private fun generateAcceptanceStates(states: String) = states.split(externalSplitter)
+
     private fun generateTransition(transition: String): Transitions {
-        val aux = transition.split(splitter)
+        val aux = transition.split(externalSplitter)
         val transitions = Transitions()
         aux.forEach {
             val split = it.split("->")
@@ -73,14 +78,14 @@ class MTFactory {
     private fun getEntry(entry: String): TransitionInput {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
-        var inputValues = input.split(splitter)
+        var inputValues = input.split(innerSplitter)
         return TransitionInput(inputValues[0], inputValues[1][0])
     }
 
     private fun getOutput(entry: String): TransitionOutput {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
-        var inputValues = input.split(splitter)
+        var inputValues = input.split(innerSplitter)
         return TransitionOutput(inputValues[0], inputValues[1][0], inputValues[2][0])
     }
 

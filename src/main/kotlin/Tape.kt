@@ -1,12 +1,12 @@
 class Tape(
     word: String,
-    val acceptedSymbols: ArrayList<Char>,
+    val whiteSymbol: Char,
+    val acceptedSymbols: List<Char>,
     var actualState: String = ""
 
 ) {
 
     private var size: Int = 0
-    private val whiteSymbol: Char = 'ç'
     private var tape: ArrayList<Char> = arrayListOf()
     private var actualPosition = 0
 
@@ -57,7 +57,9 @@ class Tape(
     }
 
     private fun canWalkToLeft() = actualPosition != 0
-    private fun canWalkToRight() = actualPosition < size
+    private fun canWalkToRight() = actualPosition < size - 1
 
     private fun symbolIsValid(symbolToWrite: Char) = acceptedSymbols.contains(symbolToWrite)
+
+    fun getActualSymbol() = tape[actualPosition]
 }

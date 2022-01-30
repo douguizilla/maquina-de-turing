@@ -34,7 +34,7 @@ class MTFactory {
                 val tapeAlphabet = generateAlphabet(scanner.next())
                 val q0 = scanner.next()
                 val qAccepted = generateAcceptanceStates(scanner.next())
-                val whiteSymbol = scanner.next()
+                val whiteSymbol = scanner.next().toCharArray()[0]
                 val transition = generateTransition(scanner.next())
                 mt = MaquinaTuring(
                     states,
@@ -75,17 +75,17 @@ class MTFactory {
         return transitions
     }
 
-    private fun getEntry(entry: String): TransitionInput {
+    private fun getEntry(entry: String): String {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
-        var inputValues = input.split(innerSplitter)
-        return TransitionInput(inputValues[0], inputValues[1][0])
+        return input
     }
 
     private fun getOutput(entry: String): TransitionOutput {
         var input = entry.removePrefix("(")
         input = input.removeSuffix(")")
         var inputValues = input.split(innerSplitter)
+//        println("output ${inputValues[0]} ${inputValues[1][0]} ${inputValues[2][0]}")
         return TransitionOutput(inputValues[0], inputValues[1][0], inputValues[2][0])
     }
 

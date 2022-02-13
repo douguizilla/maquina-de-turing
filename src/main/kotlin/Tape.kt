@@ -29,31 +29,36 @@ class Tape(
         return aux
     }
 
-    fun walkOnTape(direction: Char, symbolToWrite: Char) {
+    fun walkOnTape(direction: Char, symbolToWrite: Char) : Boolean{
         if (direction == 'R' || direction == 'r' || direction == 'D' || direction == 'd') {
-            walkToRight(symbolToWrite)
+            return walkToRight(symbolToWrite)
         }
         if (direction == 'L' || direction == 'l' || direction == 'E' || direction == 'e') {
-            walkToLeft(symbolToWrite)
+            return walkToLeft(symbolToWrite)
         }
+        return false
     }
 
-    private fun walkToRight(symbolToWrite: Char) {
+    private fun walkToRight(symbolToWrite: Char) : Boolean{
         if (symbolIsValid(symbolToWrite)) {
             tape[actualPosition] = symbolToWrite
             if(canWalkToRight()) {
                 actualPosition++
+                return true
             }
         }
+        return false
     }
 
-    private fun walkToLeft(symbolToWrite: Char) {
+    private fun walkToLeft(symbolToWrite: Char) : Boolean{
         if (symbolIsValid(symbolToWrite)) {
             tape[actualPosition] = symbolToWrite
             if (canWalkToLeft()) {
                 actualPosition--
+                return true
             }
         }
+        return false
     }
 
     private fun canWalkToLeft() = actualPosition != 0

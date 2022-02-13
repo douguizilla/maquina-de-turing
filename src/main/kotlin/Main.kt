@@ -34,8 +34,17 @@ fun main(args: Array<String>) {
                             var transition = mt.getTransition(tape.actualState, tape.getActualSymbol())
 
                             if (transition != null) {
-                                tape.walkOnTape(transition.direction, transition.symbol)
+                                var canWalk = tape.walkOnTape(direction = transition.direction, symbolToWrite = transition.symbol)
                                 tape.actualState = transition.state
+
+                                if(!canWalk ){
+                                    if (mt.isAcceptable(tape.actualState)) {
+                                        println("Resultado: ACEITA")
+                                    } else {
+                                        println("Resultado: REJEITA")
+                                    }
+                                    break
+                                }
                             } else {
                                 if (mt.isAcceptable(tape.actualState)) {
                                     println("Resultado: ACEITA")

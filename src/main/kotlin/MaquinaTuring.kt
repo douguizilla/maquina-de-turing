@@ -12,4 +12,16 @@ class MaquinaTuring(
     }
 
     fun isAcceptable(state: String) = acceptedState.contains(state)
+
+    fun show(){
+        println("Estados: $states")
+        println("Alfabeto: $alphabet")
+        println("Alfabeto da fita: $tapeAlphabet")
+        println("Estado inicial: $initialState")
+        println("Estados finais: $acceptedState")
+        println("Simbolo branco: $whiteSymbol")
+        println("Transições: {")
+        transitions.show()
+        println("}")
+    }
 }

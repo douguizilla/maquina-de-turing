@@ -16,6 +16,7 @@ fun main(args: Array<String>) {
                 1 -> {
                     print("Digite o caminho do arquivo: ")
                     path = readLine()!!
+                    mt = MTFactory(path).getMT()
                 }
 
                 2 -> {
@@ -38,6 +39,7 @@ fun main(args: Array<String>) {
                                 tape.actualState = transition.state
 
                                 if(!canWalk ){
+
                                     if (mt.isAcceptable(tape.actualState)) {
                                         println("Resultado: ACEITA")
                                     } else {
@@ -58,14 +60,21 @@ fun main(args: Array<String>) {
                         showInstruction()
                     }
                 }
-
                 3 ->{
+                    if(path.isNotEmpty()) {
+                        mt = MTFactory(path).getMT()
+                        mt.show()
+                    }else{
+                        showInstruction()
+                    }
+                }
+                4 ->{
                     println("Simulação finalizada!")
                 }
             }
         }
 
-    }while (option == null || option != 3)
+    }while (option == null || option != 4)
 
 
 }
@@ -74,7 +83,8 @@ fun menu(){
     println("===========MAQUINA DE TURING - COM ESTADO FINAL===========")
     println("1 - Adicionar caminho do arquivo")
     println("2 - Adicionar cadeia")
-    println("3 - Parar a simulação")
+    println("3 - Ver especificação da máquina de turing")
+    println("4 - Parar a simulação")
     print("Opção: ")
 }
 

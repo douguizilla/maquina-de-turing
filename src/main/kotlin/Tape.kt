@@ -8,10 +8,11 @@ class Tape(
 
     private var size: Int = 0
     private var tape: ArrayList<Char> = arrayListOf()
-    private var actualPosition = 0
+    private var actualPosition = 1
 
     init {
         size = word.length + 1
+        tape.add(whiteSymbol)
         word.forEach {
             tape.add(it)
         }
@@ -61,8 +62,8 @@ class Tape(
         return false
     }
 
-    private fun canWalkToLeft() = actualPosition != 0
-    private fun canWalkToRight() = actualPosition < size - 1
+    private fun canWalkToLeft() = actualPosition >= 0
+    private fun canWalkToRight() = actualPosition < size
 
     private fun symbolIsValid(symbolToWrite: Char) = acceptedSymbols.contains(symbolToWrite)
 
